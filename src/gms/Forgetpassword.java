@@ -18,6 +18,8 @@ public class Forgetpassword extends javax.swing.JFrame {
      */
     public Forgetpassword() {
         initComponents();
+        this.setTitle("Grocery management System");
+        this.setLocationRelativeTo(null);
     }
 
     /**

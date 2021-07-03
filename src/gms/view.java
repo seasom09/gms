@@ -25,6 +25,8 @@ public class view extends javax.swing.JFrame {
     public view() {
         initComponents();
          mytable();
+        this.setTitle("Grocery management System");
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -36,8 +38,8 @@ public class view extends javax.swing.JFrame {
      public void mytable(){
         try{
             
-         Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fms", "root", "");
+         Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gms", "root", "");
             PreparedStatement ps=(PreparedStatement) con.prepareStatement("select * from product where 1");
             ResultSet rs=ps.executeQuery();
             table.setModel(DbUtils.resultSetToTableModel(rs));

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -24,6 +25,8 @@ public class Delete extends javax.swing.JFrame {
     public Delete() {
         initComponents();
         mytable();
+        this.setTitle("Grocery management System");
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -198,11 +201,16 @@ public class Delete extends javax.swing.JFrame {
 
         int id = Integer.parseInt(model.getValueAt(selectedRowIndex, 0).toString());
         try{
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fms", "root", "");
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gms", "root", "");
         PreparedStatement ps = (PreparedStatement) con.prepareStatement("delete from product where id=?");
         ps.setInt(1, id);
-        ps.execute();
+        boolean check = ps.execute();
+        if (check) {
+            JOptionPane.showMessageDialog(rootPane, "Deleted");
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Failed");
+        }
         }
         catch(Exception e){
             
@@ -212,8 +220,8 @@ public class Delete extends javax.swing.JFrame {
     public void mytable(){
         try{
             
-         Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fms", "root", "");
+         Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gms", "root", "");
             PreparedStatement ps=(PreparedStatement) con.prepareStatement("select * from product where 1");
             ResultSet rs=ps.executeQuery();
             table.setModel(DbUtils.resultSetToTableModel(rs));

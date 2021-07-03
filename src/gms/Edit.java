@@ -29,6 +29,8 @@ public class Edit extends javax.swing.JFrame {
     public Edit() {
         initComponents();
         mytable();
+        this.setTitle("Grocery management System");
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -305,8 +307,8 @@ public class Edit extends javax.swing.JFrame {
     public void mytable() {
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fms", "root", "")) {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gms", "root", "")) {
                 PreparedStatement ps = (PreparedStatement) con.prepareStatement("select * from product where 1");
                 ResultSet rs = ps.executeQuery();
                 table.setModel(DbUtils.resultSetToTableModel(rs));
@@ -346,7 +348,7 @@ public class Edit extends javax.swing.JFrame {
        // categoryC.setText(model.getValueAt(selectedRowIndex, 2).toString());
        // brandB.setText(model.getValueAt(selectedRowIndex, 3).toString());
        // costpriceP.setText(model.getValueAt(selectedRowIndex, 4).toString());
-        priceTF.setText(model.getValueAt(selectedRowIndex, 5).toString());
+        priceTF.setText(model.getValueAt(selectedRowIndex, 2).toString());
         idlbl.setText(model.getValueAt(selectedRowIndex, 0).toString());
         
 
@@ -365,16 +367,22 @@ public class Edit extends javax.swing.JFrame {
             String price = priceTF.getText();
             int id=Integer.parseInt(idlbl.getText());
             
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fms", "root", "");
-            PreparedStatement ps = (PreparedStatement) con.prepareStatement("update product SET productname=?,category=?,brand=?,costprice=?,sellprice=? where id=?");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gms", "root", "");
+            PreparedStatement ps = (PreparedStatement) con.prepareStatement("update product SET productname=?, price=? where id=?");
            ps.setString(1, product);
          //  ps.setString(2, category);
           // ps.setString(3, brand);
           // ps.setString(4, costprice);
-           ps.setString(5, price);
-           ps.setInt(6, id);
-           ps.executeUpdate();
+           ps.setString(2, price);
+           ps.setInt(3, id);
+           int i=ps.executeUpdate();
+            if (i>0) {
+                JOptionPane.showMessageDialog(rootPane, "Updated");
+
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Failed");
+            }
            
           } catch (Exception ex) {
 //            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);

@@ -28,6 +28,8 @@ public class Add extends javax.swing.JFrame {
     public Add() {
         initComponents();
 //        customerid.setText(""+customerId++);
+        this.setTitle("Grocery management System");
+        this.setLocationRelativeTo(null);
         
     }
 
@@ -199,15 +201,15 @@ private void addProduct() {
             
             
 
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gms", "root", "");
-            PreparedStatement ps = con.prepareStatement("insert into product( productname,quantity,price,) values(?,?,?)");
+            PreparedStatement ps = con.prepareStatement("insert into product(productname,quantity,price) values(?,?,?)");
             ps.setString(1, productName);
            // ps.setString(2, categoryName);
            // ps.setString(3, brandName);
-            ps.setInt(4, Quantity);         
+            ps.setInt(2, Quantity);         
           //  ps.setFloat(5, cpName);
-            ps.setFloat(6, pName);
+            ps.setFloat(3, pName);
 //            ps.setInt(7, customerID);
             
             int i=ps.executeUpdate();
@@ -215,7 +217,7 @@ private void addProduct() {
                 JOptionPane.showMessageDialog(rootPane, "Inserted");
                 
             }else{
-                JOptionPane.showMessageDialog(rootPane, "FAiled");
+                JOptionPane.showMessageDialog(rootPane, "Failed");
             }
           
 
